@@ -42,9 +42,9 @@ LLVM Readme.
 Finally, build the project:
 
 ```bash
-$ cmake --build-all -- check-all
+$ cmake --build build -- check-all
 ```
-This will also run the regression tests. `cmake --build-all` will build the project
+This will also run the regression tests. `cmake --build build` will build the project
 without running regression tests.
 
 By default, `ninja` will discover how many cores your CPU has and schedule jobs in
@@ -52,7 +52,7 @@ parallel appropriately. If you are building on a partition, or a virtual machine
 like WSL, `ninja` may choose to run too many jobs at once. As a result, your OS
 may kill a build task. If this happens, try running with fewer jobs:
 ```bash
-$ cmake --build-all -- -j 4 check-all
+$ cmake --build build -- -j 4 check-all
 ```
 
 Change the `4` as appropriate (the default 12 overloads my machine, but 8 works fine).
