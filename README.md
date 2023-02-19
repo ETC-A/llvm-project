@@ -1,3 +1,66 @@
+# ETCa LLVM
+
+This project is a fork of https://github.com/llvm/llvm-project/ which adds an ETCa backend to LLVM. The LLVM Project Readme is below.
+
+## Quick Install Guide
+
+We haven't finished a first version of the backend yet, so there's nothing to install.
+Stay tuned!
+
+## Hacking Quickstart Guide
+
+To get started with working on this fork of LLVM, make sure you have CMake.
+CMake is used to generate a build configuration appropriate for your system.
+The LLVM developers, and us as well, recommend using the Ninja build tool.
+
+First, clone this project onto your system:
+```bash
+$ git clone https://github.com/ETC-A/llvm-project
+```
+This will take a while; LLVM is a large project.
+
+Then, configure the build system. We're using this configuration at the moment,
+but following the instructions given below, you can change the configuration however
+you like.
+
+> :warning: If you're on a version of this fork which does not yet contain ETCa target
+> configuration, you need to remove `;ETCa` from the targets to build below.
+
+```bash
+$ cmake -S llvm -B build -G Ninja \
+    -DLLVM_ENABLE_PROJECTS="clang" \
+    -DLLVM_TARGETS_TO_BUILD="X86;ETCa" \
+    -DCMAKE_BUILD_TYPE="Debug" \
+    -DLLVM_ENABLE_ASSERTIONS=On
+```
+
+This will discover and prepare an appropriate build configuration for your system.
+The configuration will install LLVM in a global, but safe location. On Linux,
+that will be /usr/local. To install elsewhere, take a look below at the original
+LLVM Readme.
+
+Finally, build the project:
+
+```bash
+$ cmake --build-all -- check-all
+```
+This will also run the regression tests. `cmake --build-all` will build the project
+without running regression tests.
+
+By default, `ninja` will discover how many cores your CPU has and schedule jobs in
+parallel appropriately. If you are building on a partition, or a virtual machine
+like WSL, `ninja` may choose to run too many jobs at once. As a result, your OS
+may kill a build task. If this happens, try running with fewer jobs:
+```bash
+$ cmake --build-all -- -j 4 check-all
+```
+
+Change the `4` as appropriate (the default 12 overloads my machine, but 8 works fine).
+
+The backend can be found... somewhere. We're not actually sure yet! :sweat_smile:
+
+--------------------
+
 # The LLVM Compiler Infrastructure
 
 This directory and its sub-directories contain the source code for LLVM,
